@@ -4,6 +4,10 @@ class Msg::Base
     @params = args[:params]
   end
 
+  def has_template?
+    false
+  end
+
   def get_event_codename
     if @params.has_key?(:Body) and @params[:Body].present?
       return @params[:Body].split[1].downcase

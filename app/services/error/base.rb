@@ -5,6 +5,10 @@ class Error::Base
     @code = args[:code]
   end
 
+  def has_template?
+    false
+  end
+
   def to_s
     "(#{code}) #{description}"
   end

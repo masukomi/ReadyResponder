@@ -1,0 +1,17 @@
+Event Name: <%=event.title%> (<%= event.id_code %>)
+Duration: <%= event.start_time %> to <%= event.end_time %>
+Description: <%= event.description %>
+
+<%
+  sp = event.scheduled_people
+  avp = event.available_people
+  pavp = event.partially_available_people
+%>
+Scheduled People (<%= sp.count %>)
+<% render partial: 'bulleted_people_list', locals: {people: sp} %>
+
+Available People (<%= avp.count %>):
+<% render partial: 'bulleted_people_list', locals: {people: avp} %>
+
+Partially Available People (<%= pavp.count %>):
+<% render partial: 'bulleted_people_list', locals: {people: pavp} %>

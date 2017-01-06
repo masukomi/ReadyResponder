@@ -15,15 +15,22 @@ class TextsController < ApplicationController
     # that it created ? Or whatever it created...
     keyword = Message::ExtractKeyword.new(params[:Body]).call
     if keyword
-      cmd_klass = "Msg::#{keyword}"
-      response = cmd_klass.constantize.new(
-            {params: params, person: sender}).respond
+      cmd_class = get_command_class(keyword)
+      response = cmd_class.respond
+      response_string
+      if response.has_template?
+        response_string = render_view(keyword)
+        render partial: keyword, locals: cmd_class.template_locals
+      else
+        render plain: response.to_s
+      end
+
     else
-      response = "Hello, #{sender.fullname}"
-      response += "Unknown Keyword"
+      response_string = "Hello, #{sender.fullname}"
+      response_string += "Unknown Keyword"
+      render plain: response_string
     end
     # Save outbound message here
-    render plain: response.to_s
   end
 
   def say_voice
@@ -58,5 +65,16 @@ class TextsController < ApplicationController
   def text_params
     params.require(:text).permit(:To, :From, :Body,
       :MessageSid, :MessagingServiceSid, :AccountSid )
+  end
+
+  def render_view(keyword)
+    template = ActionView::Base.new(ActionController::Base.view_paths, {})
+    template.render(file: 'confirmation/#{keyword}')
+  end
+
+  def get_command_class(keyword)
+    cmd_klass_name = "Msg::#{keyword}"
+    cmd_klass_name.constantize.new( {params: params,
+                                                 person: sender})
   end
 end
