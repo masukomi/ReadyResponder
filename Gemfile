@@ -47,6 +47,7 @@ group :test, :development do
   gem 'test-unit'
   gem 'poltergeist'
   gem 'pry'
+  gem 'noisy_partials', git: 'git://github.com/gwshaw/noisy_partials.git'
 end
 
 group :development do
