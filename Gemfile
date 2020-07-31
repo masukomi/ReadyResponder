@@ -5,7 +5,7 @@ gem 'rails', '~> 5.2.0'
 # This is needed until upstream projects update their gemspecs
 # This avoids a vulnerability in 3.7.1
 gem 'sprockets', '3.7.2'
-
+gem 'nokogiri', '1.10.10'
 gem 'rack'
 gem 'ransack'
 gem 'carrierwave'
@@ -50,7 +50,7 @@ group :test, :development do
   gem 'capybara'
   # Use selenium and chrome for handling JS automated testing
   gem 'selenium-webdriver'
-  gem 'chromedriver-helper' 
+  gem 'chromedriver-helper'
   gem 'guard-rspec', require: false
   gem 'guard-livereload'
   gem 'launchy'
